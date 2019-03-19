@@ -1,0 +1,2317 @@
+{
+	"info": {
+		"_postman_id": "8c21ab24-e6da-47fb-90dd-4ae553a9b16b",
+		"name": "NEW-CityIQ-OnBoarding-Collection-PostMigration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Tokens",
+			"item": [
+				{
+					"name": "Get client Token",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"id": "888ced7c-8c64-4d1a-8bfa-b77197654fa4",
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"client_token\", data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "51db22f0-3e4d-45d4-9ae5-5a9b13379623",
+								"exec": [
+									"var current = (new Date).getTime();",
+									"var start = (current - (86400 * 1000));",
+									"var end = (current + (86400 * 1000 * 5));",
+									"postman.setEnvironmentVariable(\"startts\", start);",
+									"postman.setEnvironmentVariable(\"endts\", end);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "{{client_id}}",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "{{client_secret}}",
+									"type": "string"
+								},
+								{
+									"key": "saveHelperData",
+									"value": true,
+									"type": "boolean"
+								},
+								{
+									"key": "showPassword",
+									"value": false,
+									"type": "boolean"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic aWMuc3RhZ2Uuc2ltLmRldmVsb3A6ZGV2"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/x-www-form-urlencoded",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{uaa}}/oauth/token?grant_type=client_credentials",
+							"host": [
+								"{{uaa}}"
+							],
+							"path": [
+								"oauth",
+								"token"
+							],
+							"query": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Metadata",
+			"item": [
+				{
+					"name": "Get All Assets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/search?bbox={{bbox}}&page=0&size=200&q=assetType:CAMERA",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"assets",
+								"search"
+							],
+							"query": [
+								{
+									"key": "bbox",
+									"value": "{{bbox}}"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "200"
+								},
+								{
+									"key": "q",
+									"value": "assetType:CAMERA"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset-->Location list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/{{traffic_asset}}/locations",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"assets",
+								"{{traffic_asset}}",
+								"locations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Asset Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/{{traffic_asset}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"assets",
+								"{{traffic_asset}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Location Detail",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/locations/{{traffic_loc}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"locations",
+								"{{traffic_loc}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Locations",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/locations/search?q=locationType:TRAFFIC_LANE&bbox={{bbox}}&page=0&size=50",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"locations",
+								"search"
+							],
+							"query": [
+								{
+									"key": "q",
+									"value": "locationType:TRAFFIC_LANE"
+								},
+								{
+									"key": "bbox",
+									"value": "{{bbox}}"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "size",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Location-->Asset list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/locations/{{traffic_loc}}/assets",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"locations",
+								"{{traffic_loc}}",
+								"assets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Sub Assets",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{traffic_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/{{node}}/subAssets",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"metadata",
+								"assets",
+								"{{node}}",
+								"subAssets"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Events",
+			"item": [
+				{
+					"name": "Parking",
+					"item": [
+						{
+							"name": "Get PKIN by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "55abc9c9-de38-4baa-a707-7b48faf98b24",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{parking_asset}}/events?eventType=PKIN&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{parking_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PKIN"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PKIN by locationId",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{parking_loc}}/events?eventType=PKIN&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{parking_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PKIN"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PKIN by bbox",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8cb814fb-ba27-48f4-a673-4bd5ee217190",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/events?bbox={{bbox}}&locationType=PARKING_ZONE&eventType=PKIN&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"events"
+									],
+									"query": [
+										{
+											"key": "bbox",
+											"value": "{{bbox}}"
+										},
+										{
+											"key": "locationType",
+											"value": "PARKING_ZONE"
+										},
+										{
+											"key": "eventType",
+											"value": "PKIN"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PKOUT by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "fde831bf-f1d2-47d0-979e-e1982d492c9a",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{parking_asset}}/events?eventType=PKOUT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{parking_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PKOUT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PKOUT by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0a445619-80bb-49a8-bfe4-f9dd3600ad4a",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{parking_loc}}/events?eventType=PKOUT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{parking_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PKOUT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PKOUT by bbox",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "4e78fd78-d8f1-44c5-bf80-881a3df12094",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{parking_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/events?bbox={{bbox}}&locationType=PARKING_ZONE&eventType=PKOUT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"events"
+									],
+									"query": [
+										{
+											"key": "bbox",
+											"value": "{{bbox}}"
+										},
+										{
+											"key": "locationType",
+											"value": "PARKING_ZONE"
+										},
+										{
+											"key": "eventType",
+											"value": "PKOUT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Pedestrian",
+					"item": [
+						{
+							"name": "Get PEDEVT by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "15fec614-fcce-4827-a539-8c9a95c29c22",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{ped_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{ped_loc}}/events?eventType=PEDEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{ped_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PEDEVT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get PEDEVT by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "b6809065-0fc2-4657-b3fb-ace6212df0bc",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{ped_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{ped_asset}}/events?eventType=PEDEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{ped_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PEDEVT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "PedResponse",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Authorization",
+												"value": "Bearer {{client_token}}"
+											},
+											{
+												"key": "Predix-Zone-Id",
+												"value": "{{ped_zone_id}}"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
+										"url": {
+											"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{ped_asset}}/events?eventType=PEDEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+											"protocol": "https",
+											"host": [
+												"{{tenant}}",
+												"cityiq",
+												"io"
+											],
+											"path": [
+												"api",
+												"v2",
+												"event",
+												"assets",
+												"{{ped_asset}}",
+												"events"
+											],
+											"query": [
+												{
+													"key": "eventType",
+													"value": "PEDEVT"
+												},
+												{
+													"key": "startTime",
+													"value": "{{startts}}"
+												},
+												{
+													"key": "endTime",
+													"value": "{{endts}}"
+												},
+												{
+													"key": "pageSize",
+													"value": "100"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Access-Control-Allow-Credentials",
+											"value": "true",
+											"name": "Access-Control-Allow-Credentials",
+											"description": ""
+										},
+										{
+											"key": "Access-Control-Allow-Headers",
+											"value": "Origin,Accept,X-Requested-With,Content-Type,Content-Disposition,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization,Predix-Zone-Id,Content-Length,Origin,Accept,X-Requested-With,Content-Type,Access-Control-Request-Method,Access-Control-Request-Headers,Authorization,Predix-Zone-Id",
+											"name": "Access-Control-Allow-Headers",
+											"description": ""
+										},
+										{
+											"key": "Access-Control-Allow-Methods",
+											"value": "POST, GET, HEAD, OPTIONS, PUT, PATCH, DELETE,GET,POST,PUT,DELETE,OPTIONS,PATCH",
+											"name": "Access-Control-Allow-Methods",
+											"description": ""
+										},
+										{
+											"key": "Access-Control-Max-Age",
+											"value": "3600",
+											"name": "Access-Control-Max-Age",
+											"description": ""
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache",
+											"name": "Cache-Control",
+											"description": ""
+										},
+										{
+											"key": "Content-Length",
+											"value": "13992",
+											"name": "Content-Length",
+											"description": ""
+										},
+										{
+											"key": "Content-Security-Policy",
+											"value": "child-src 'self'",
+											"name": "Content-Security-Policy",
+											"description": ""
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json;charset=UTF-8",
+											"name": "Content-Type",
+											"description": ""
+										},
+										{
+											"key": "Date",
+											"value": "Thu, 13 Apr 2017 17:47:49 GMT",
+											"name": "Date",
+											"description": ""
+										},
+										{
+											"key": "Expires",
+											"value": "0",
+											"name": "Expires",
+											"description": ""
+										},
+										{
+											"key": "Pragma",
+											"value": "no-cache",
+											"name": "Pragma",
+											"description": ""
+										},
+										{
+											"key": "Server",
+											"value": "Apache-Coyote/1.1",
+											"name": "Server",
+											"description": ""
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=16070400",
+											"name": "Strict-Transport-Security",
+											"description": ""
+										},
+										{
+											"key": "X-Application-Context",
+											"value": "ie-event-service-ic-dev:cloud:0",
+											"name": "X-Application-Context",
+											"description": ""
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff",
+											"name": "X-Content-Type-Options",
+											"description": ""
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN",
+											"name": "X-Frame-Options",
+											"description": ""
+										},
+										{
+											"key": "X-Vcap-Request-Id",
+											"value": "ac9a4296-64fb-4636-5456-3c901f0380b0",
+											"name": "X-Vcap-Request-Id",
+											"description": ""
+										},
+										{
+											"key": "X-Xss-Protection",
+											"value": "1; mode=block",
+											"name": "X-Xss-Protection",
+											"description": ""
+										}
+									],
+									"cookie": [],
+									"body": "{\"content\":[{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859439631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NDM5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":20.0,\"speed\":4.2}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859479631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NDc5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":21.0,\"speed\":4.0}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859511631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NTExNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":22.0,\"speed\":4.2272725}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859551631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NTUxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":25.0,\"speed\":4.08}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859591631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NTkxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":22.0,\"speed\":4.409091}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491859627631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODU5NjI3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":23.0,\"speed\":3.8695652}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866447631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2NDQ3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.7272727}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866487631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2NDg3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":4.060606}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866523631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2NTIzNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":28.0,\"speed\":3.9642856}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866751631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2NzUxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.939394}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866791631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2NzkxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":28.0,\"speed\":4.0}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866823631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2ODIzNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":4.0}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866859634,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2ODU5NjM0\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":3.6451614}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866891631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2ODkxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.909091}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866931631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2OTMxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":3.7}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491866967631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY2OTY3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":32.0,\"speed\":4.25}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867003631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MDAzNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":32.0,\"speed\":4.125}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867035631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MDM1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":32.0,\"speed\":3.90625}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867075631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MDc1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":4.0}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867115631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MTE1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":28.0,\"speed\":3.642857}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867151631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MTUxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.969697}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867191631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MTkxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":4.181818}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867227631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MjI3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":4.0666666}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867259631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MjU5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":4.0689654}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867299631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3Mjk5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":4.030303}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867339631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3MzM5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":3.9666667}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867379631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3Mzc5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":32.0,\"speed\":4.21875}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867415631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NDE1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":4.290323}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867451631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NDUxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":28.0,\"speed\":3.9642856}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867495631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NDk1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.7575758}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867539631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NTM5NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":3.7419355}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867575631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NTc1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":32.0,\"speed\":3.96875}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867615631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NjE1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":4.0}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867651631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NjUxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":3.7931035}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867695631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3Njk1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":4.0666666}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867735631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NzM1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":3.689655}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867767631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3NzY3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":28.0,\"speed\":4.035714}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867807631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3ODA3NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":3.6551723}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867843631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3ODQzNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":4.2}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867883631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3ODgzNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":3.8709676}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867915631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3OTE1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":29.0,\"speed\":3.9655173}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867955631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3OTU1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.7272727}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491867995631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY3OTk1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":31.0,\"speed\":4.225806}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491868031631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY4MDMxNjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":30.0,\"speed\":3.9}},{\"locationUid\":\"LOCATION-VPCDEV-30-1077-1-N\",\"assetUid\":\"CAM-HYP1018-F\",\"eventType\":\"PEDEVT\",\"timestamp\":1491868075631,\"properties\":{\"directionUnit\":\"DEGREE\",\"speedUnit\":\"METERS_PER_SEC\",\"eventUid\":\"Q0FNLUhZUDEwMTgtRiwxNDkxODY4MDc1NjMx\"},\"measures\":{\"direction\":-1.0,\"pedestrianCount\":33.0,\"speed\":3.7878788}}],\"metaData\":{\"startTs\":\"1491634800000\",\"endTs\":\"1491868075631\",\"request_limit\":1000,\"totalRecords\":45,\"comment\":\"\"}}"
+								}
+							]
+						},
+						{
+							"name": "Get PEDEVT by bbox",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "776e8529-c4f5-4ae5-a997-d14188ba86bf",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{ped_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/events?eventType=PEDEVT&bbox={{bbox}}&locationType=WALKWAY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PEDEVT"
+										},
+										{
+											"key": "bbox",
+											"value": "{{bbox}}"
+										},
+										{
+											"key": "locationType",
+											"value": "WALKWAY"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Traffic",
+					"item": [
+						{
+							"name": "Get TFEVT by bbox",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8a6a704a-8cbb-43b1-9d46-a7c0d3ad948c",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{traffic_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/events?eventType=TFEVT&bbox={{bbox}}&locationType=TRAFFIC_LANE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "TFEVT"
+										},
+										{
+											"key": "bbox",
+											"value": "{{bbox}}"
+										},
+										{
+											"key": "locationType",
+											"value": "TRAFFIC_LANE"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get TFEVT by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "df4aee3a-4401-44a1-a4a1-ebc3ea962376",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{traffic_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{traffic_asset}}/events?eventType=TFEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{traffic_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "TFEVT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get TFEVT by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "fd3db7dd-1ec1-49e5-8b5c-c542d04e3207",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{traffic_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{traffic_loc}}/events?eventType=TFEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{traffic_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "TFEVT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Environmental & Energy",
+					"item": [
+						{
+							"name": "Get PRESSURE by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{env_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{env_asset}}/events?eventType=PRESSURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{env_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PRESSURE"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get METROLOGY by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{em_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=METROLOGY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"events",
+										"asset",
+										"{{em_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "METROLOGY"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get TEMPERATURE by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{env_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{env_asset}}/events?eventType=TEMPERATURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"events",
+										"asset",
+										"{{env_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "TEMPERATURE"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ORIENTATION by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{env_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{env_asset}}/events?eventType=ORIENTATION&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{env_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "ORIENTATION"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ENERGY_TIMESERIES by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{em_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=ENERGY_TIMESERIES&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"events",
+										"asset",
+										"{{em_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "ENERGY_TIMESERIES"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get HUMIDITY by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "72ada0df-a567-47dc-94a8-19c4f978c28d",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (28*68*68*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{env_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{env_asset}}/events?eventType=HUMIDITY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{env_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "HUMIDITY"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ENERGY_ALERT by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
+										"exec": [
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{em_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{em_asset}}/events?eventType=ENERGY_ALERT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{em_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "ENERGY_ALERT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "Media (follow 3 Steps process)",
+			"item": [
+				{
+					"name": "(step 1) Get Image mediaOnDemand Asset",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{image_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/assets/{{traffic_asset}}/media?mediaType=IMAGE&timestamp={{startts}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"assets",
+								"{{traffic_asset}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "IMAGE"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 1) Get Image mediaOnDemand Location",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{image_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/locations/{{traffic_loc}}/media?mediaType=IMAGE&timestamp={{startts}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"locations",
+								"{{traffic_loc}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "IMAGE"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 1) Get Video mediaOnDemand Asset",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{video_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/assets/{{traffic_asset}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=300",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"assets",
+								"{{traffic_asset}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "VIDEO"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								},
+								{
+									"key": "duration",
+									"value": "300"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 1) Get Video mediaOnDemand Location",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{video_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/locations/{{traffic_loc}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=300",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"locations",
+								"{{traffic_loc}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "VIDEO"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								},
+								{
+									"key": "duration",
+									"value": "300"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restricted (step 1) Get Audio mediaOnDemand Asset",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{audio_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/assets/{{audio_asset}}/media?mediaType=AUDIO&timestamp={{startts}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"assets",
+								"{{audio_asset}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "AUDIO"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "restricted (step 1) Get Audio mediaOnDemand Location",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{audio_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/locations/{{traffic_loc}}/media?mediaType=AUDIO&timestamp={{startts}}",
+							"protocol": "https",
+							"host": [
+								"{{tenant}}",
+								"cityiq",
+								"io"
+							],
+							"path": [
+								"api",
+								"v2",
+								"media",
+								"ondemand",
+								"locations",
+								"{{traffic_loc}}",
+								"media"
+							],
+							"query": [
+								{
+									"key": "mediaType",
+									"value": "AUDIO"
+								},
+								{
+									"key": "timestamp",
+									"value": "{{startts}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 2) After getMedia-paste pollUrl here",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{image_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "###     PASTE  pollUrl  here   ###",
+							"hash": "##     PASTE  pollUrl  here   ###"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 3) If Sussess-paste url here (do send & download)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{image_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "###     PASTE  url  here   ###",
+							"hash": "##     PASTE  url  here   ###"
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
