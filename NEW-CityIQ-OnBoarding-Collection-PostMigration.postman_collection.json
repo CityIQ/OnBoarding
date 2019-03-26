@@ -1565,7 +1565,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=METROLOGY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{em_asset}}/events?eventType=METROLOGY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
 									"protocol": "https",
 									"host": [
 										"{{tenant}}",
@@ -1636,7 +1636,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{env_asset}}/events?eventType=TEMPERATURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{env_asset}}/events?eventType=TEMPERATURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
 									"protocol": "https",
 									"host": [
 										"{{tenant}}",
@@ -1775,7 +1775,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=ENERGY_TIMESERIES&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{em_asset}}/events?eventType=ENERGY_TIMESERIES&startTime={{startts}}&endTime={{endts}}&pageSize=100",
 									"protocol": "https",
 									"host": [
 										"{{tenant}}",
