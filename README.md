@@ -6,11 +6,11 @@ Before downloading all documents please read the following:
 
 Intelligent Cities (also known as CityIQ) is a Edge to Cloud Platform performing real-time computer analytics on your city streets. By obtaining client credentials you are gaining access to the text data quantifying city events related to Parking, Pedestrian, Traffic and Environmental occurances.  For more information about the platform please go to: https://developer.currentbyge.com/cityiq/
 
-API Documentation is found at : https://ie-cities-docs.run.aws-usw02-pr.ice.predix.io/
+API Documentation is found at : https://docs.cityiq.io
 
 The documents and their purpose is described here:
 
-1. OnBoarding_CityIQ_Postman_and_FAQ.pdf : This document will be your starter guide in accessing the APIs (Application Programming Interface) and getting started using Postman. For advanced users familiar with Javascript, we recommend begining with the starter code found at: https://github.com/jethompson911/CityIQ-Starter-Code 
+1. OnBoarding_CityIQ_Postman_and_FAQ.pdf : This document will be your starter guide in accessing the APIs (Application Programming Interface) and getting started using Postman. For advanced users familiar with Javascript, we recommend begining with the starter code found at: https://github.com/CityIQ/CityIQ-Starter-Code 
 
 NOTE: To download Postman, please use Chrome Browser and go to https://www.getpostman.com/downloads/.  If you are unable to use Postman because of IT security systems, please go here (https://chrome.google.com/webstore/detail/postman/fhbjgbiflinjbdggehcddcbncdddomop?hl=en) and add Postman App to your Chrome Browser. 
 
