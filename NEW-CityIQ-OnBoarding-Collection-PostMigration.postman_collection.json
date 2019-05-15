@@ -27,11 +27,7 @@
 							"script": {
 								"id": "51db22f0-3e4d-45d4-9ae5-5a9b13379623",
 								"exec": [
-									"var current = (new Date).getTime();",
-									"var start = (current - (86400 * 1000));",
-									"var end = (current + (86400 * 1000 * 5));",
-									"postman.setEnvironmentVariable(\"startts\", start);",
-									"postman.setEnvironmentVariable(\"endts\", end);"
+									""
 								],
 								"type": "text/javascript"
 							}
@@ -122,7 +118,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/search?bbox={{bbox}}&page=0&size=200&q=assetType:CAMERA",
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/metadata/assets/search?bbox={{bbox}}&page=0&size=200&q=eventTypes:TFEVT",
 							"protocol": "https",
 							"host": [
 								"{{tenant}}",
@@ -151,7 +147,7 @@
 								},
 								{
 									"key": "q",
-									"value": "assetType:CAMERA"
+									"value": "eventTypes:TFEVT"
 								}
 							]
 						}
@@ -418,7 +414,7 @@
 										"id": "55abc9c9-de38-4baa-a707-7b48faf98b24",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -482,6 +478,21 @@
 						},
 						{
 							"name": "Get PKIN by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "fc345851-91c2-46ee-8e45-483e35fe57ab",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
 							"request": {
 								"method": "GET",
 								"header": [
@@ -545,7 +556,7 @@
 										"id": "8cb814fb-ba27-48f4-a673-4bd5ee217190",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -623,7 +634,7 @@
 										"id": "fde831bf-f1d2-47d0-979e-e1982d492c9a",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -694,7 +705,7 @@
 										"id": "0a445619-80bb-49a8-bfe4-f9dd3600ad4a",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -765,7 +776,7 @@
 										"id": "4e78fd78-d8f1-44c5-bf80-881a3df12094",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -841,77 +852,6 @@
 					"name": "Pedestrian",
 					"item": [
 						{
-							"name": "Get PEDEVT by locationId",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "15fec614-fcce-4827-a539-8c9a95c29c22",
-										"exec": [
-											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
-											"postman.setEnvironmentVariable(\"startts\", start);",
-											"postman.setEnvironmentVariable(\"endts\", end);"
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{client_token}}"
-									},
-									{
-										"key": "Predix-Zone-Id",
-										"value": "{{ped_zone_id}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{ped_loc}}/events?eventType=PEDEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
-									"protocol": "https",
-									"host": [
-										"{{tenant}}",
-										"cityiq",
-										"io"
-									],
-									"path": [
-										"api",
-										"v2",
-										"event",
-										"locations",
-										"{{ped_loc}}",
-										"events"
-									],
-									"query": [
-										{
-											"key": "eventType",
-											"value": "PEDEVT"
-										},
-										{
-											"key": "startTime",
-											"value": "{{startts}}"
-										},
-										{
-											"key": "endTime",
-											"value": "{{endts}}"
-										},
-										{
-											"key": "pageSize",
-											"value": "100"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Get PEDEVT by assetId",
 							"event": [
 								{
@@ -920,7 +860,7 @@
 										"id": "b6809065-0fc2-4657-b3fb-ace6212df0bc",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1154,6 +1094,77 @@
 							]
 						},
 						{
+							"name": "Get PEDEVT by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "15fec614-fcce-4827-a539-8c9a95c29c22",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{ped_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{ped_loc}}/events?eventType=PEDEVT&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{ped_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "PEDEVT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
 							"name": "Get PEDEVT by bbox",
 							"event": [
 								{
@@ -1162,7 +1173,7 @@
 										"id": "776e8529-c4f5-4ae5-a997-d14188ba86bf",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1246,7 +1257,7 @@
 										"id": "8a6a704a-8cbb-43b1-9d46-a7c0d3ad948c",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1324,7 +1335,7 @@
 										"id": "df4aee3a-4401-44a1-a4a1-ebc3ea962376",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1395,7 +1406,7 @@
 										"id": "fd3db7dd-1ec1-49e5-8b5c-c542d04e3207",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1461,6 +1472,232 @@
 					"_postman_isSubFolder": true
 				},
 				{
+					"name": "Bicycle",
+					"item": [
+						{
+							"name": "Get BICYCLE by bbox",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "8a6a704a-8cbb-43b1-9d46-a7c0d3ad948c",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{bicycle_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/events?eventType=BICYCLE&locationType=TRAFFIC_LANE&bbox={{bbox}}&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "BICYCLE"
+										},
+										{
+											"key": "locationType",
+											"value": "TRAFFIC_LANE"
+										},
+										{
+											"key": "bbox",
+											"value": "{{bbox}}"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get BICYCLE by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "df4aee3a-4401-44a1-a4a1-ebc3ea962376",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{bicycle_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{bicycle_asset}}/events?eventType=BICYCLE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"assets",
+										"{{bicycle_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "BICYCLE"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get BICYCLE by locationId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "fd3db7dd-1ec1-49e5-8b5c-c542d04e3207",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{bicycle_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/locations/{{bicycle_loc}}/events?eventType=BICYCLE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"event",
+										"locations",
+										"{{bicycle_loc}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "BICYCLE"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
 					"name": "Environmental & Energy",
 					"item": [
 						{
@@ -1472,7 +1709,7 @@
 										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1542,7 +1779,10 @@
 									"script": {
 										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
 										"exec": [
-											""
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
 										"type": "text/javascript"
 									}
@@ -1565,7 +1805,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{em_asset}}/events?eventType=METROLOGY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=METROLOGY&startTime={{startts}}&endTime={{endts}}&pageSize=100",
 									"protocol": "https",
 									"host": [
 										"{{tenant}}",
@@ -1611,7 +1851,7 @@
 										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1636,7 +1876,7 @@
 									"raw": ""
 								},
 								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{env_asset}}/events?eventType=TEMPERATURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{env_asset}}/events?eventType=TEMPERATURE&startTime={{startts}}&endTime={{endts}}&pageSize=100",
 									"protocol": "https",
 									"host": [
 										"{{tenant}}",
@@ -1682,7 +1922,7 @@
 										"id": "6dcd767f-1f4c-4098-89f9-c7d775561984",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1745,74 +1985,6 @@
 							"response": []
 						},
 						{
-							"name": "Get ENERGY_TIMESERIES by assetId",
-							"event": [
-								{
-									"listen": "prerequest",
-									"script": {
-										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
-										"exec": [
-											""
-										],
-										"type": "text/javascript"
-									}
-								}
-							],
-							"request": {
-								"method": "GET",
-								"header": [
-									{
-										"key": "Authorization",
-										"value": "Bearer {{client_token}}"
-									},
-									{
-										"key": "Predix-Zone-Id",
-										"value": "{{em_zone_id}}"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": ""
-								},
-								"url": {
-									"raw": "https://{{tenant}}.cityiq.io/api/v2/event/assets/{{em_asset}}/events?eventType=ENERGY_TIMESERIES&startTime={{startts}}&endTime={{endts}}&pageSize=100",
-									"protocol": "https",
-									"host": [
-										"{{tenant}}",
-										"cityiq",
-										"io"
-									],
-									"path": [
-										"api",
-										"v2",
-										"events",
-										"asset",
-										"{{em_asset}}",
-										"events"
-									],
-									"query": [
-										{
-											"key": "eventType",
-											"value": "ENERGY_TIMESERIES"
-										},
-										{
-											"key": "startTime",
-											"value": "{{startts}}"
-										},
-										{
-											"key": "endTime",
-											"value": "{{endts}}"
-										},
-										{
-											"key": "pageSize",
-											"value": "100"
-										}
-									]
-								}
-							},
-							"response": []
-						},
-						{
 							"name": "Get HUMIDITY by assetId",
 							"event": [
 								{
@@ -1821,7 +1993,7 @@
 										"id": "72ada0df-a567-47dc-94a8-19c4f978c28d",
 										"exec": [
 											"var end = (new Date).getTime();",
-											"var start = (end - (28*68*68*1000));",
+											"var start = (end - (24*60*60*1000));",
 											"postman.setEnvironmentVariable(\"startts\", start);",
 											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
@@ -1891,7 +2063,10 @@
 									"script": {
 										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
 										"exec": [
-											""
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
 										],
 										"type": "text/javascript"
 									}
@@ -1933,6 +2108,77 @@
 										{
 											"key": "eventType",
 											"value": "ENERGY_ALERT"
+										},
+										{
+											"key": "startTime",
+											"value": "{{startts}}"
+										},
+										{
+											"key": "endTime",
+											"value": "{{endts}}"
+										},
+										{
+											"key": "pageSize",
+											"value": "100"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get ENERGY_TIMESERIES by assetId",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "25f9e411-d29c-4568-b190-0c439a12b8e7",
+										"exec": [
+											"var end = (new Date).getTime();",
+											"var start = (end - (24*60*60*1000));",
+											"postman.setEnvironmentVariable(\"startts\", start);",
+											"postman.setEnvironmentVariable(\"endts\", end);"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Authorization",
+										"value": "Bearer {{client_token}}"
+									},
+									{
+										"key": "Predix-Zone-Id",
+										"value": "{{em_zone_id}}"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "https://{{tenant}}.cityiq.io/api/v2/events/asset/{{em_asset}}/events?eventType=ENERGY_TIMESERIES&startTime={{startts}}&endTime={{endts}}&pageSize=100",
+									"protocol": "https",
+									"host": [
+										"{{tenant}}",
+										"cityiq",
+										"io"
+									],
+									"path": [
+										"api",
+										"v2",
+										"events",
+										"asset",
+										"{{em_asset}}",
+										"events"
+									],
+									"query": [
+										{
+											"key": "eventType",
+											"value": "ENERGY_TIMESERIES"
 										},
 										{
 											"key": "startTime",
@@ -2059,6 +2305,21 @@
 				},
 				{
 					"name": "(step 1) Get Video mediaOnDemand Asset",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "718159f4-17eb-48ad-a903-692127a78cd5",
+								"exec": [
+									"var end = (new Date).getTime();",
+									"var start = (end - (24*60*60*1000));",
+									"postman.setEnvironmentVariable(\"startts\", start);",
+									"postman.setEnvironmentVariable(\"endts\", end);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2076,7 +2337,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/assets/{{traffic_asset}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=300",
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/assets/{{traffic_asset}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=120",
 							"protocol": "https",
 							"host": [
 								"{{tenant}}",
@@ -2103,7 +2364,7 @@
 								},
 								{
 									"key": "duration",
-									"value": "300"
+									"value": "120"
 								}
 							]
 						}
@@ -2112,6 +2373,21 @@
 				},
 				{
 					"name": "(step 1) Get Video mediaOnDemand Location",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "9fc5ceeb-0e9d-490d-a384-1c93c76df900",
+								"exec": [
+									"var end = (new Date).getTime();",
+									"var start = (end - (24*60*60*1000));",
+									"postman.setEnvironmentVariable(\"startts\", start);",
+									"postman.setEnvironmentVariable(\"endts\", end);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2129,7 +2405,7 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/locations/{{traffic_loc}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=300",
+							"raw": "https://{{tenant}}.cityiq.io/api/v2/media/ondemand/locations/{{traffic_loc}}/media?mediaType=VIDEO&timestamp={{startts}}&duration=120",
 							"protocol": "https",
 							"host": [
 								"{{tenant}}",
@@ -2156,7 +2432,7 @@
 								},
 								{
 									"key": "duration",
-									"value": "300"
+									"value": "120"
 								}
 							]
 						}
@@ -2262,7 +2538,7 @@
 					"response": []
 				},
 				{
-					"name": "(step 2) After getMedia-paste pollUrl here",
+					"name": "(step 2) After getMedia IMAGE-paste pollUrl here",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2287,7 +2563,32 @@
 					"response": []
 				},
 				{
-					"name": "(step 3) If Sussess-paste url here (do send & download)",
+					"name": "(step 2) After getMedia VIDEO-paste pollUrl here",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{video_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "###     PASTE  pollUrl  here   ###",
+							"hash": "##     PASTE  pollUrl  here   ###"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 3) If IMAGE Success-paste url here (do send & download)",
 					"request": {
 						"method": "GET",
 						"header": [
@@ -2298,6 +2599,31 @@
 							{
 								"key": "Predix-Zone-Id",
 								"value": "{{image_zone_id}}"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "###     PASTE  url  here   ###",
+							"hash": "##     PASTE  url  here   ###"
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "(step 3) If VIDEO Success-paste url here (do send & download)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{client_token}}"
+							},
+							{
+								"key": "Predix-Zone-Id",
+								"value": "{{video_zone_id}}"
 							}
 						],
 						"body": {
