@@ -7,6 +7,7 @@ Before downloading all documents please read the following:
 Intelligent Cities (also known as CityIQ) is a Edge to Cloud Platform performing real-time computer analytics on your city streets. By obtaining client credentials you are gaining access to the text data quantifying city events related to Parking, Pedestrian, Traffic and Environmental occurances.  For more information about the platform please go to: https://developer.currentbyge.com/cityiq/
 
 API Documentation is found at : https://docs.cityiq.io
+Please Note: all actions related to Bicycle Planning API are not available until our 19.2 Release June 2019 and are available only to specific tenants.
 
 The documents and their purpose is described here:
 
